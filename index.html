@@ -92,33 +92,34 @@
   <div class="result" id="result"></div>
 
   <script>
-    function calculateStress() {
-      const form = document.forms["stressForm"];
-      let total = 0;
-      for (let i = 1; i <= 10; i++) {
-        const q = form["q" + i];
-        for (const option of q) {
-          if (option.checked) {
-            total += parseInt(option.value);
-            break;
-          }
-        }
-      }
+ function calculateScore() {
+  const form = document.forms["stressForm"];
+  let total = 0;
+  const data = {};
 
-      let level = "";
-      if (total <= 8) {
-        level = "ระดับความเครียดต่ำ";
-      } else if (total <= 16) {
-        level = "ระดับความเครียดปานกลาง";
-      } else if (total <= 24) {
-        level = "ระดับความเครียดสูง";
-      } else {
-        level = "ความเครียดสูงมาก ควรปรึกษาผู้เชี่ยวชาญ";
-      }
+  for (let i = 1; i <= 5; i++) {
+    const value = parseInt(form["q" + i].value);
+    data["q" + i] = value;
+    total += value;
+  }
 
-      document.getElementById("result").innerHTML = 
-        "คะแนนรวม: " + total + "<br>" + level;
-    }
-  </script>
-</body>
-</html>
+  data.total = total;
+
+  // แสดงผลในหน้าเว็บ
+  let result = "";
+  if (total <= 4) result = "ต่ำ";
+  else if (total <= 8) result = "ปานกลาง";
+  else if (total <= 12) result = "สูง";
+  else result = "รุนแรงมาก";
+
+  document.getElementById("result").innerText = "ระดับความเครียด: " + result;
+
+  // ส่งข้อมูลไป Google Sheets
+  fetch("https://script.google.com/macros/s/xxxxxxxxxxxxxxxx/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  })
+  .then(res => console.log("ส่งข้อมูลแล้ว"))
+  .catch(err => console.error("ส่งไม่สำเร็จ", err));
+}
