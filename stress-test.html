@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แบบประเมินความเครียด</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    h1 { color: #0066cc; }
+    .question { margin-bottom: 10px; }
+    .result { font-weight: bold; color: green; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>แบบประเมินความเครียด</h1>
+  <form id="stressForm">
+    <p>ในช่วง 2 สัปดาห์ที่ผ่านมา คุณมีอาการเหล่านี้บ่อยแค่ไหน?</p>
+
+    <div class="question">1. รู้สึกหงุดหงิดหรือโกรธง่าย<br>
+      <input type="radio" name="q1" value="0" required> ไม่เลย
+      <input type="radio" name="q1" value="1"> น้อยมาก
+      <input type="radio" name="q1" value="2"> บ่อย
+      <input type="radio" name="q1" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">2. นอนไม่หลับหรือหลับยาก<br>
+      <input type="radio" name="q2" value="0" required> ไม่เลย
+      <input type="radio" name="q2" value="1"> น้อยมาก
+      <input type="radio" name="q2" value="2"> บ่อย
+      <input type="radio" name="q2" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">3. รู้สึกเหนื่อยง่าย ไม่มีแรง<br>
+      <input type="radio" name="q3" value="0" required> ไม่เลย
+      <input type="radio" name="q3" value="1"> น้อยมาก
+      <input type="radio" name="q3" value="2"> บ่อย
+      <input type="radio" name="q3" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">4. ไม่มีสมาธิ<br>
+      <input type="radio" name="q4" value="0" required> ไม่เลย
+      <input type="radio" name="q4" value="1"> น้อยมาก
+      <input type="radio" name="q4" value="2"> บ่อย
+      <input type="radio" name="q4" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">5. เบื่อหน่าย ไม่อยากทำอะไร<br>
+      <input type="radio" name="q5" value="0" required> ไม่เลย
+      <input type="radio" name="q5" value="1"> น้อยมาก
+      <input type="radio" name="q5" value="2"> บ่อย
+      <input type="radio" name="q5" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">6. ใจสั่น หายใจไม่สะดวก<br>
+      <input type="radio" name="q6" value="0" required> ไม่เลย
+      <input type="radio" name="q6" value="1"> น้อยมาก
+      <input type="radio" name="q6" value="2"> บ่อย
+      <input type="radio" name="q6" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">7. ปวดหัว ปวดเมื่อยตามร่างกาย<br>
+      <input type="radio" name="q7" value="0" required> ไม่เลย
+      <input type="radio" name="q7" value="1"> น้อยมาก
+      <input type="radio" name="q7" value="2"> บ่อย
+      <input type="radio" name="q7" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">8. ทานอาหารน้อยลงหรือมากขึ้นผิดปกติ<br>
+      <input type="radio" name="q8" value="0" required> ไม่เลย
+      <input type="radio" name="q8" value="1"> น้อยมาก
+      <input type="radio" name="q8" value="2"> บ่อย
+      <input type="radio" name="q8" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">9. รู้สึกว่าตนเองไร้ค่า<br>
+      <input type="radio" name="q9" value="0" required> ไม่เลย
+      <input type="radio" name="q9" value="1"> น้อยมาก
+      <input type="radio" name="q9" value="2"> บ่อย
+      <input type="radio" name="q9" value="3"> บ่อยมาก
+    </div>
+
+    <div class="question">10. รู้สึกอยากร้องไห้โดยไม่มีเหตุผล<br>
+      <input type="radio" name="q10" value="0" required> ไม่เลย
+      <input type="radio" name="q10" value="1"> น้อยมาก
+      <input type="radio" name="q10" value="2"> บ่อย
+      <input type="radio" name="q10" value="3"> บ่อยมาก
+    </div>
+
+    <br>
+    <button type="button" onclick="calculateStress()">ประเมินผล</button>
+  </form>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculateStress() {
+      const form = document.forms["stressForm"];
+      let total = 0;
+      for (let i = 1; i <= 10; i++) {
+        const q = form["q" + i];
+        for (const option of q) {
+          if (option.checked) {
+            total += parseInt(option.value);
+            break;
+          }
+        }
+      }
+
+      let level = "";
+      if (total <= 8) {
+        level = "ระดับความเครียดต่ำ";
+      } else if (total <= 16) {
+        level = "ระดับความเครียดปานกลาง";
+      } else if (total <= 24) {
+        level = "ระดับความเครียดสูง";
+      } else {
+        level = "ความเครียดสูงมาก ควรปรึกษาผู้เชี่ยวชาญ";
+      }
+
+      document.getElementById("result").innerHTML = 
+        "คะแนนรวม: " + total + "<br>" + level;
+    }
+  </script>
+</body>
+</html>
